@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Users } from './entities/users.entity';
+import { User } from './entities/users.entity';
 
-const entities = [Users];
+const entities = [User];
 @Module({
   imports: [TypeOrmModule.forFeature(entities)],
   exports: [TypeOrmModule],

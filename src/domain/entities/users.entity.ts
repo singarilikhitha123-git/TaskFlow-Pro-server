@@ -7,23 +7,24 @@ import {
 } from 'typeorm';
 
 @Entity('users')
-export class Users {
+export class User {
+  // Singular name (best practice)
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ unique: true })
+  @Column({ type: 'varchar', length: 255, unique: true })
   email: string;
 
-  @Column()
+  @Column({ type: 'varchar', length: 100 })
   firstName: string;
 
-  @Column()
+  @Column({ type: 'varchar', length: 100 })
   lastName: string;
 
-  @Column()
+  @Column({ type: 'varchar', length: 255 })
   password: string;
 
-  @Column({ default: true })
+  @Column({ type: 'boolean', default: true })
   isActive: boolean;
 
   @CreateDateColumn()
