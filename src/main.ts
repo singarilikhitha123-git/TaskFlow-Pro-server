@@ -10,6 +10,7 @@ async function bootstrap() {
       'http://localhost:5173',
       'http://localhost:5174',
       configService.get<string>('FRONTEND_URL'),
+      /\.vercel\.app$/, //regex to allow all vercel domains
     ],
     credentials: true,
     allowedHeaders: ['Content-Type', 'Authorization'],
@@ -18,7 +19,7 @@ async function bootstrap() {
 
   app.setGlobalPrefix('taskflow-pro');
   const PORT = process.env.PORT ?? 3000;
-  await app.listen(PORT);
+  await app.listen(PORT, '0.0.0.0'); //This means listen on all available network interfaces.
 
   console.log('');
   console.log('🚀 Server running on http://localhost:' + PORT);
