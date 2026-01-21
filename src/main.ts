@@ -1,10 +1,12 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ConfigService } from '@nestjs/config';
+import { urlencoded } from 'express';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const configService = app.get(ConfigService);
+  app.use(urlencoded({ extended: true })); // to support URL-encoded bodies(form submissions)
   app.enableCors({
     origin: [
       'http://localhost:5173',
@@ -14,7 +16,7 @@ async function bootstrap() {
     ],
     credentials: true,
     allowedHeaders: ['Content-Type', 'Authorization'],
-    methods: ['GET'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   });
 
   app.setGlobalPrefix('taskflow-pro');
