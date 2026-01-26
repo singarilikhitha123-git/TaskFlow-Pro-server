@@ -19,5 +19,5 @@ export class upsertUserDto {
 
   @IsNotEmpty()
   @IsBoolean()
-  IsActive: boolean;
+  isActive: boolean;
 }
