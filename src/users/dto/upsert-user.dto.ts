@@ -1,4 +1,4 @@
-import { IsBoolean, IsNotEmpty, IsString } from 'class-validator';
+import { IsBoolean, IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 export class upsertUserDto {
   @IsNotEmpty()
@@ -16,6 +16,10 @@ export class upsertUserDto {
   @IsNotEmpty()
   @IsString()
   password: string;
+
+  @IsNotEmpty()
+  @IsNumber()
+  PhoneNumber: number;
 
   @IsNotEmpty()
   @IsBoolean()
