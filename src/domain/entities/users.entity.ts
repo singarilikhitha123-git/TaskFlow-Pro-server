@@ -30,6 +30,12 @@ export class User {
   @Column({ type: 'boolean', default: true })
   isActive: boolean;
 
+  @Column({ type: 'varchar', length: 500, nullable: true })
+  profileImageUrl: string | null;
+
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  profileImagePublicId: string | null;
+
   @CreateDateColumn()
   createdAt: Date;
 

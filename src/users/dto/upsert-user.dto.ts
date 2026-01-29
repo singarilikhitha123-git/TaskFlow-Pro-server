@@ -1,4 +1,10 @@
-import { IsBoolean, IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import {
+  IsBoolean,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 
 export class upsertUserDto {
   @IsNotEmpty()
@@ -19,7 +25,15 @@ export class upsertUserDto {
 
   @IsNotEmpty()
   @IsNumber()
-  PhoneNumber: number;
+  phoneNumber: number;
+
+  @IsOptional()
+  @IsString()
+  profileImageUrl: string | null;
+
+  @IsOptional()
+  @IsString()
+  profileImagePublicId: string | null;
 
   @IsNotEmpty()
   @IsBoolean()
