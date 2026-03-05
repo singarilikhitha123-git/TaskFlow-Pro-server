@@ -1,17 +1,24 @@
-import { Module } from '@nestjs/common';
+import {
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+  RequestMethod,
+} from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { TestModule } from 'test/test.module';
 import { UsersModule } from './users/users.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { TypeORMError } from 'typeorm';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { DomainModule } from './domain/domain.module';
+import { AuthModule } from './auth/auth.module';
+import { AuthMiddleware } from './auth/auth.middleware';
 
 @Module({
   imports: [
     UsersModule,
+    DomainModule,
+    AuthModule,
     ConfigModule.forRoot({ isGlobal: true, envFilePath: '.env' }),
-
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -24,16 +31,19 @@ import { TypeOrmModule } from '@nestjs/typeorm';
         password: configService.get<string>('DATABASE_PASSWORD'),
         database: configService.get<string>('DATABASE_NAME'),
         entities: [__dirname + '/**/*.entity{.ts,.js}'],
-        synchronize: true, //Automatically creates/updates database tables to match your entity definitions.
-        logging: true, //Shows all SQL queries that TypeORM executes in your console/terminal.
+        synchronize: true,
+        logging: true,
         ssl: configService.get<boolean>('DATABASE_URL')
           ? { rejectUnauthorized: false }
           : false,
       }),
     }),
   ],
-
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(AuthMiddleware).forRoutes('*');
+  }
+}

@@ -9,9 +9,8 @@ async function bootstrap() {
   app.use(urlencoded({ extended: true })); // to support URL-encoded bodies(form submissions)
   app.enableCors({
     origin: [
-      'http://localhost:5173',
-      'http://localhost:5174',
-      configService.get<string>('FRONTEND_URL'),
+      configService.get<string>('FRONTEND_URL') ?? 'http://localhost:5173',
+
       /\.vercel\.app$/, //regex to allow all vercel domains
     ],
     credentials: true,

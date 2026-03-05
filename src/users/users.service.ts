@@ -23,7 +23,9 @@ export class UsersService {
   }
   async updateUser(id: string, updateUser: upsertUserDto): Promise<void> {
     const response = await this.usersRepository.findOneBy({ id });
+
     updateUser.password = await bcrypt.hash(updateUser.password, 10);
+
     if (!response) {
       throw new Error('User not found');
     }
